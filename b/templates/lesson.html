@@ -124,21 +124,6 @@ body {
 <body>
     <div class="container">
         <h1>{{ lesson.title }}</h1>
-        <div class="tasks-container">
-            {% for task in lesson.tasks.all %}
-            <div class="task" data-correct="{{ task.correct_answer }}">
-                <p><strong>{{ task.question|safe }}</strong></p>
-                <div class="answers">
-                    <button class="answer" data-value="{{ task.answer2 }}">1. {{ task.answer2|safe }}</button>
-                    <button class="answer" data-value="{{ task.answer3 }}">2. {{ task.answer3|safe }}</button>
-                    <button class="answer" data-value="{{ task.answer4 }}">3. {{ task.answer4|safe }}</button>
-                    <button class="answer" data-value="{{ task.correct_answer }}">4. {{ task.correct_answer|safe }}</button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
         <!-- Lesson Content -->
         <h1 class="lesson-title">{{ lesson.title }}</h1>
         <div class="lesson-content">
@@ -164,7 +149,7 @@ body {
 
         <a href="{% url 'topic' subject.slug topic.slug %}" class="back-link">← Назад к {{ topic.title }}</a>
     </div>
-
+</div>
     <audio id="correct-sound" src="/static/sounds/correct.mp3" preload="auto"></audio>
     <audio id="wrong-sound" src="/static/sounds/wrong.mp3" preload="auto"></audio>
 
