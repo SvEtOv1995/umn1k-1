@@ -122,13 +122,13 @@ body {
 </style>
 
 <body>
-    <div class="container">
+    <main class="container">
         <h1>{{ lesson.title }}</h1>
         <!-- Lesson Content -->
         <h1 class="lesson-title">{{ lesson.title }}</h1>
         <div class="lesson-content">
             {{ lesson.content|safe }}
-        </div>
+       
 
         <!-- Tasks Section -->
         <h2>Tasks</h2>
@@ -149,7 +149,7 @@ body {
 
         <a href="{% url 'topic' subject.slug topic.slug %}" class="back-link">← Назад к {{ topic.title }}</a>
     </div>
-</div>
+</main>
     <audio id="correct-sound" src="/static/sounds/correct.mp3" preload="auto"></audio>
     <audio id="wrong-sound" src="/static/sounds/wrong.mp3" preload="auto"></audio>
 
