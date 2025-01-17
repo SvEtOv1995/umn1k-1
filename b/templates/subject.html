@@ -1,3 +1,6 @@
+{% extends 'navbar.html' %}
+{% block content %}
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -22,10 +25,23 @@
 
     }
 
+
+
 </style>
 
 <body>
     <div class="container">
+
+        <div class="instruments">
+
+            <div class="instrumet">
+
+                <h4></h4>
+
+            </div>
+
+        </div>
+
         <h1>{{ subject.title }}</h1>
         <h2>Topics</h2>
         <ul class="topics-list">
@@ -35,5 +51,8 @@
         </ul>
         <a class="back-link" href="{% url 'landing' %}">← Back to Subjects</a>
     </div>
+
 </body>
 </html>
+
+{% endblock %}
