@@ -1,0 +1,292 @@
+{% extends 'navbar.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Периодическая таблица Менделеева</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f6f6f6;
+        }
+        .table {
+            display: grid;
+            grid-template-columns: repeat(18, 60px);
+            gap: 5px;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+        .element {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .element:hover {
+            transform: scale(1.05);
+        }
+        .alkali-metal { background-color: #ffcccb; }
+        .alkaline-earth-metal { background-color: #add8e6; }
+        .transition-metal { background-color: #d3d3d3; }
+        .post-transition-metal { background-color: #f0e68c; }
+        .metalloid { background-color: #98fb98; }
+        .non-metal { background-color: #dda0dd; }
+        .halogen { background-color: #ffb6c1; }
+        .noble-gas { background-color: #b0e0e6; }
+        .legend {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .description {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .description h2 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Периодическая таблица Менделеева</h1>
+    <div>
+        <label for="temperature">Температура: </label>
+        <input type="range" id="temperature" min="-273" max="5000" step="10" value="20" oninput="updateTemperature(this.value)">
+        <span id="temperature-value-celsius">20°C</span>
+        <span id="temperature-value-fahrenheit">68°F</span>
+        <span id="temperature-value-kelvin">293.15K</span>
+    </div>
+    <div class="table">
+        <div class="element alkali-metal" onclick="showDescription({
+            name: 'Hydrogen',
+            symbol: 'H',
+            number: 1,
+            state: 'Газ',
+            weight: '1.008',
+            energyLevel: '1s1',
+            electronegativity: '2.20',
+            meltingPoint: '-259.1',
+            boilingPoint: '-252.9',
+            electronAffinity: '72.8',
+            radius: '53'
+        })">H<br><small>1</small></div>
+        
+        <div class="element noble-gas" onclick="showDescription({
+            name: 'Helium',
+            symbol: 'He',
+            number: 2,
+            state: 'Газ',
+            weight: '4.0026',
+            energyLevel: '1s2',
+            electronegativity: 'N/A',
+            meltingPoint: '-272.2',
+            boilingPoint: '-268.9',
+            electronAffinity: 'N/A',
+            radius: '31'
+        })">He<br><small>2</small></div>
+        
+        <div class="element alkali-metal" onclick="showDescription({
+            name: 'Lithium',
+            symbol: 'Li',
+            number: 3,
+            state: 'Твёрдое',
+            weight: '6.94',
+            energyLevel: '2s1',
+            electronegativity: '0.98',
+            meltingPoint: '180.5',
+            boilingPoint: '1590',
+            electronAffinity: '59.6',
+            radius: '152'
+        })">Li<br><small>3</small></div>
+        
+        <div class="element alkaline-earth-metal" onclick="showDescription({
+            name: 'Beryllium',
+            symbol: 'Be',
+            number: 4,
+            state: 'Твёрдое',
+            weight: '9.0122',
+            energyLevel: '2s2',
+            electronegativity: '1.57',
+            meltingPoint: '1278',
+            boilingPoint: '2469',
+            electronAffinity: '0',
+            radius: '112'
+        })">Be<br><small>4</small></div>
+        
+        <div class="element alkali-metal" onclick="showDescription({
+            name: 'Boron',
+            symbol: 'B',
+            number: 5,
+            state: 'Твёрдое',
+            weight: '10.81',
+            energyLevel: '2p1',
+            electronegativity: '2.04',
+            meltingPoint: '2076',
+            boilingPoint: '4000',
+            electronAffinity: '26.7',
+            radius: '87'
+        })">B<br><small>5</small></div>
+        
+        <div class="element non-metal" onclick="showDescription({
+            name: 'Carbon',
+            symbol: 'C',
+            number: 6,
+            state: 'Твёрдое',
+            weight: '12.011',
+            energyLevel: '2s2 2p2',
+            electronegativity: '2.55',
+            meltingPoint: '3550',
+            boilingPoint: '4827',
+            electronAffinity: '121.8',
+            radius: '67'
+        })">C<br><small>6</small></div>
+        
+        <div class="element non-metal" onclick="showDescription({
+            name: 'Nitrogen',
+            symbol: 'N',
+            number: 7,
+            state: 'Газ',
+            weight: '14.007',
+            energyLevel: '2s2 2p3',
+            electronegativity: '3.04',
+            meltingPoint: '-209.9',
+            boilingPoint: '-195.8',
+            electronAffinity: '7.0',
+            radius: '56'
+        })">N<br><small>7</small></div>
+        
+        <div class="element non-metal" onclick="showDescription({
+            name: 'Oxygen',
+            symbol: 'O',
+            number: 8,
+            state: 'Газ',
+            weight: '15.999',
+            energyLevel: '2s2 2p4',
+            electronegativity: '3.44',
+            meltingPoint: '-218.79',
+            boilingPoint: '-182.96',
+            electronAffinity: '141.0',
+            radius: '60'
+        })">O<br><small>8</small></div>
+        
+        <div class="element halogen" onclick="showDescription({
+            name: 'Fluorine',
+            symbol: 'F',
+            number: 9,
+            state: 'Газ',
+            weight: '18.998',
+            energyLevel: '2s2 2p5',
+            electronegativity: '3.98',
+            meltingPoint: '-219.67',
+            boilingPoint: '-188.11',
+            electronAffinity: '328.0',
+            radius: '47'
+        })">F<br><small>9</small></div>
+        
+        <div class="element halogen" onclick="showDescription({
+            name: 'Neon',
+            symbol: 'Ne',
+            number: 10,
+            state: 'Газ',
+            weight: '20.180',
+            energyLevel: '2s2 2p6',
+            electronegativity: 'N/A',
+            meltingPoint: '-248.59',
+            boilingPoint: '-246.05',
+            electronAffinity: 'N/A',
+            radius: '38'
+        })">Ne<br><small>10</small></div>
+        
+        <!-- Добавьте остальные элементы аналогично -->
+    </div>
+
+    <div class="description" id="description">
+        <h2>Выберите элемент, чтобы увидеть описание.</h2>
+    </div>
+
+    <div class="legend">
+        <h3>Легенда:</h3>
+        <ul>
+            <li style="color: #ffcccb;">Щелочные металлы</li>
+            <li style="color: #add8e6;">Щелочноземельные металлы</li>
+            <li style="color: #d3d3d3;">Переходные металлы</li>
+            <li style="color: #f0e68c;">Постпереходные металлы</li>
+            <li style="color: #98fb98;">Металлоиды</li>
+            <li style="color: #dda0dd;">Неметаллы</li>
+            <li style="color: #ffb6c1;">Галогены</li>
+            <li style="color: #b0e0e6;">Благородные газы</li>
+        </ul>
+    </div>
+
+    <script>
+        const temperatureSpanCelsius = document.getElementById('temperature-value-celsius');
+        const temperatureSpanFahrenheit = document.getElementById('temperature-value-fahrenheit');
+        const temperatureSpanKelvin = document.getElementById('temperature-value-kelvin');
+
+        function updateTemperature(value) {
+            const celsius = parseInt(value);
+            const fahrenheit = (celsius * 9/5) + 32;
+            const kelvin = celsius + 273.15;
+
+            temperatureSpanCelsius.textContent = `${celsius}°C`;
+            temperatureSpanFahrenheit.textContent = `${fahrenheit}°F`;
+            temperatureSpanKelvin.textContent = `${kelvin.toFixed(2)}K`;
+
+            // Обновляем описание выбранного элемента
+            const descriptionDiv = document.getElementById('description');
+            if (descriptionDiv.innerHTML !== '<h2>Выберите элемент, чтобы увидеть описание.</h2>') {
+                const elementData = JSON.parse(descriptionDiv.getAttribute('data-element'));
+                const state = determineState(elementData, celsius);
+                showDescription(elementData, state);
+            }
+        }
+
+        function showDescription(element, state) {
+            const descriptionDiv = document.getElementById('description');
+            descriptionDiv.setAttribute('data-element', JSON.stringify(element));
+
+            descriptionDiv.innerHTML = `
+                <h2>${element.name} (${element.symbol})</h2>
+                <p><strong>Атомный номер:</strong> ${element.number}</p>
+                <p><strong>Агрегатное состояние:</strong> ${state}</p>
+                <p><strong>Вес:</strong> ${element.weight}</p>
+                <p><strong>Энергетический уровень:</strong> ${element.energyLevel}</p>
+                <p><strong>Электроотрицательность:</strong> ${element.electronegativity}</p>
+                <p><strong>Температура плавления:</strong> ${element.meltingPoint}°C</p>
+                <p><strong>Температура кипения:</strong> ${element.boilingPoint}°C</p>
+                <p><strong>Энергия сродства к электрону:</strong> ${element.electronAffinity} kJ/mol</p>
+                <p><strong>Радиус:</strong> ${element.radius} pm</p>
+            `;
+        }
+
+        function determineState(element, temperature) {
+            if (temperature < element.meltingPoint) {
+                return 'Твёрдое';
+            } else if (temperature >= element.meltingPoint && temperature < element.boilingPoint) {
+                return 'Жидкое';
+            } else {
+                return 'Газообразное';
+            }
+        }
+    </script>
+</body>
+</html>
+{% endblock %}

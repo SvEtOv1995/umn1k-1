@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'tinymce',
 
     'b',
+    'pt',
 
 ]
 
