@@ -1,6 +1,3 @@
-{% extends 'navbar.html' %}
-
-{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +9,11 @@
             font-family: Arial, sans-serif;
             margin: 20px;
             background-color: #f6f6f6;
+            display: flex;
+            flex-direction: row;
+        }
+        .main-content {
+            flex: 1;
         }
         .table {
             display: grid;
@@ -50,218 +52,126 @@
             margin-left: auto;
             margin-right: auto;
         }
-        .description {
-            margin-top: 20px;
-            padding: 15px;
+        .description-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: sticky;
+            top: 20px;
+            margin-left: 20px;
+        }
+        .description, .additional-text {
+            width: 250px;
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
             background-color: #ffffff;
             border: 1px solid #ccc;
             border-radius: 5px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
         }
-        .description h2 {
-            margin: 0;
+        .legend ul li:hover {
+            cursor: pointer;
+            text-decoration: underline;
         }
+        .legend ul li:hover ~ .table .alkali-metal,
+        .legend ul li:nth-child(1):hover .alkali-metal {
+            background-color: #ff9999 !important;
+        }
+        .legend ul li:nth-child(2):hover ~ .table .alkaline-earth-metal {
+            background-color: #88c1e6 !important;
+        }
+        /* Добавьте аналогичные правила для других категорий */
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Периодическая таблица Менделеева</h1>
-    <div>
-        <label for="temperature">Температура: </label>
-        <input type="range" id="temperature" min="-273" max="5000" step="10" value="20" oninput="updateTemperature(this.value)">
-        <span id="temperature-value-celsius">20°C</span>
-        <span id="temperature-value-fahrenheit">68°F</span>
-        <span id="temperature-value-kelvin">293.15K</span>
-    </div>
-    <div class="table">
-        <div class="element alkali-metal" onclick="showDescription({
-            name: 'Hydrogen',
-            symbol: 'H',
-            number: 1,
-            state: 'Газ',
-            weight: '1.008',
-            energyLevel: '1s1',
-            electronegativity: '2.20',
-            meltingPoint: '-259.1',
-            boilingPoint: '-252.9',
-            electronAffinity: '72.8',
-            radius: '53'
-        })">H<br><small>1</small></div>
+    <div class="main-content">
+        <h1 style="text-align: center;">Периодическая таблица Менделеева</h1>
+        <div>
+            <label for="temperature">Температура (°C): </label>
+            <input type="range" id="temperature" min="-273" max="5000" step="10" value="20" oninput="updateTemperature(this.value)">
+            <span id="temperature-value">20°C</span>
+        </div>
+        <div class="table">
+            <div class="element alkali-metal" data-symbol="H" onclick="showDescription({
+                name: 'Hydrogen',
+                symbol: 'H',
+                number: 1,
+                state: 'Газ',
+                weight: '1.008',
+                energyLevel: '1s1',
+                electronegativity: '2.20',
+                meltingPoint: '-259.1',
+                boilingPoint: '-252.9',
+                electronAffinity: '72.8',
+                radius: '53'
+            })">
+                H<br><small>1</small><br><span>1.008</span>
+            </div>
+            <div class="element noble-gas" data-symbol="He" onclick="showDescription({
+                name: 'Helium',
+                symbol: 'He',
+                number: 2,
+                state: 'Газ',
+                weight: '4.0026',
+                energyLevel: '1s2',
+                electronegativity: 'N/A',
+                meltingPoint: '-272.2',
+                boilingPoint: '-268.9',
+                electronAffinity: 'N/A',
+                radius: '31'
+            })">
+                He<br><small>2</small><br><span>4.0026</span>
+            </div>
+            <!-- Добавьте остальные элементы -->
+        </div>
+        <div class="legend">
+            <h3>Легенда:</h3>
+            <ul>
+                <li style="color: #ffcccb;" onmouseover="highlightCategory('alkali-metal')" onmouseout="resetHighlight()">Щелочные металлы</li>
+                <li style="color: #add8e6;" onmouseover="highlightCategory('alkaline-earth-metal')" onmouseout="resetHighlight()">Щелочноземельные металлы</li>
+                <li style="color: #d3d3d3;" onmouseover="highlightCategory('transition-metal')" onmouseout="resetHighlight()">Переходные металлы</li>
+                <li style="color: #f0e68c;" onmouseover="highlightCategory('post-transition-metal')" onmouseout="resetHighlight()">Постпереходные металлы</li>
+                <li style="color: #98fb98;" onmouseover="highlightCategory('metalloid')" onmouseout="resetHighlight()">Полуметаллы</li>
+                <li style="color: #dda0dd;" onmouseover="highlightCategory('non-metal')" onmouseout="resetHighlight()">Неметаллы</li>
+                <li style="color: #ffb6c1;" onmouseover="highlightCategory('halogen')" onmouseout="resetHighlight()">Галогены</li>
+                <li style="color: #b0e0e6;" onmouseover="highlightCategory('noble-gas')" onmouseout="resetHighlight()">Благородные газы (галогены)</li>
+                <li style="color: #c0c0c0;" onmouseover="highlightCategory('metal')" onmouseout="resetHighlight()">Все металлы</li>
+            </ul>
+        </div>
         
-        <div class="element noble-gas" onclick="showDescription({
-            name: 'Helium',
-            symbol: 'He',
-            number: 2,
-            state: 'Газ',
-            weight: '4.0026',
-            energyLevel: '1s2',
-            electronegativity: 'N/A',
-            meltingPoint: '-272.2',
-            boilingPoint: '-268.9',
-            electronAffinity: 'N/A',
-            radius: '31'
-        })">He<br><small>2</small></div>
+        <!-- Кнопка для открытия окна соединений -->
+        <button onclick="toggleConnectionWindow()">Проверить соединения</button>
         
-        <div class="element alkali-metal" onclick="showDescription({
-            name: 'Lithium',
-            symbol: 'Li',
-            number: 3,
-            state: 'Твёрдое',
-            weight: '6.94',
-            energyLevel: '2s1',
-            electronegativity: '0.98',
-            meltingPoint: '180.5',
-            boilingPoint: '1590',
-            electronAffinity: '59.6',
-            radius: '152'
-        })">Li<br><small>3</small></div>
-        
-        <div class="element alkaline-earth-metal" onclick="showDescription({
-            name: 'Beryllium',
-            symbol: 'Be',
-            number: 4,
-            state: 'Твёрдое',
-            weight: '9.0122',
-            energyLevel: '2s2',
-            electronegativity: '1.57',
-            meltingPoint: '1278',
-            boilingPoint: '2469',
-            electronAffinity: '0',
-            radius: '112'
-        })">Be<br><small>4</small></div>
-        
-        <div class="element alkali-metal" onclick="showDescription({
-            name: 'Boron',
-            symbol: 'B',
-            number: 5,
-            state: 'Твёрдое',
-            weight: '10.81',
-            energyLevel: '2p1',
-            electronegativity: '2.04',
-            meltingPoint: '2076',
-            boilingPoint: '4000',
-            electronAffinity: '26.7',
-            radius: '87'
-        })">B<br><small>5</small></div>
-        
-        <div class="element non-metal" onclick="showDescription({
-            name: 'Carbon',
-            symbol: 'C',
-            number: 6,
-            state: 'Твёрдое',
-            weight: '12.011',
-            energyLevel: '2s2 2p2',
-            electronegativity: '2.55',
-            meltingPoint: '3550',
-            boilingPoint: '4827',
-            electronAffinity: '121.8',
-            radius: '67'
-        })">C<br><small>6</small></div>
-        
-        <div class="element non-metal" onclick="showDescription({
-            name: 'Nitrogen',
-            symbol: 'N',
-            number: 7,
-            state: 'Газ',
-            weight: '14.007',
-            energyLevel: '2s2 2p3',
-            electronegativity: '3.04',
-            meltingPoint: '-209.9',
-            boilingPoint: '-195.8',
-            electronAffinity: '7.0',
-            radius: '56'
-        })">N<br><small>7</small></div>
-        
-        <div class="element non-metal" onclick="showDescription({
-            name: 'Oxygen',
-            symbol: 'O',
-            number: 8,
-            state: 'Газ',
-            weight: '15.999',
-            energyLevel: '2s2 2p4',
-            electronegativity: '3.44',
-            meltingPoint: '-218.79',
-            boilingPoint: '-182.96',
-            electronAffinity: '141.0',
-            radius: '60'
-        })">O<br><small>8</small></div>
-        
-        <div class="element halogen" onclick="showDescription({
-            name: 'Fluorine',
-            symbol: 'F',
-            number: 9,
-            state: 'Газ',
-            weight: '18.998',
-            energyLevel: '2s2 2p5',
-            electronegativity: '3.98',
-            meltingPoint: '-219.67',
-            boilingPoint: '-188.11',
-            electronAffinity: '328.0',
-            radius: '47'
-        })">F<br><small>9</small></div>
-        
-        <div class="element halogen" onclick="showDescription({
-            name: 'Neon',
-            symbol: 'Ne',
-            number: 10,
-            state: 'Газ',
-            weight: '20.180',
-            energyLevel: '2s2 2p6',
-            electronegativity: 'N/A',
-            meltingPoint: '-248.59',
-            boilingPoint: '-246.05',
-            electronAffinity: 'N/A',
-            radius: '38'
-        })">Ne<br><small>10</small></div>
-        
-        <!-- Добавьте остальные элементы аналогично -->
-    </div>
+        <!-- Окно для перетаскивания элементов -->
+        <div id="connection-window" style="display: none; position: fixed; top: 20%; left: 30%; width: 40%; height: 50%; background: white; border: 2px solid black; border-radius: 10px; padding: 20px; z-index: 1000; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);">
+            <h3>Перетащите элементы для проверки соединений</h3>
+            <div id="drag-area" style="border: 2px dashed #ccc; height: 150px; padding: 10px; text-align: center; line-height: 150px;">
+                Перетащите сюда элементы
+            </div>
+            <div id="result" style="margin-top: 20px;"></div>
+            <button onclick="toggleConnectionWindow()">Закрыть</button>
+        </div>
 
-    <div class="description" id="description">
-        <h2>Выберите элемент, чтобы увидеть описание.</h2>
     </div>
-
-    <div class="legend">
-        <h3>Легенда:</h3>
-        <ul>
-            <li style="color: #ffcccb;">Щелочные металлы</li>
-            <li style="color: #add8e6;">Щелочноземельные металлы</li>
-            <li style="color: #d3d3d3;">Переходные металлы</li>
-            <li style="color: #f0e68c;">Постпереходные металлы</li>
-            <li style="color: #98fb98;">Металлоиды</li>
-            <li style="color: #dda0dd;">Неметаллы</li>
-            <li style="color: #ffb6c1;">Галогены</li>
-            <li style="color: #b0e0e6;">Благородные газы</li>
-        </ul>
+    <div class="description-container">
+        <div class="description" id="description">
+            <h2>Выберите элемент, чтобы увидеть описание.</h2>
+        </div>
+        <div class="additional-text">
+            <h3>Дополнительная информация</h3>
+            <p>Выберите элемент, чтобы увидеть подробности.</p>
+        </div>
     </div>
-
     <script>
-        const temperatureSpanCelsius = document.getElementById('temperature-value-celsius');
-        const temperatureSpanFahrenheit = document.getElementById('temperature-value-fahrenheit');
-        const temperatureSpanKelvin = document.getElementById('temperature-value-kelvin');
+        const temperatureSpan = document.getElementById('temperature-value');
 
         function updateTemperature(value) {
-            const celsius = parseInt(value);
-            const fahrenheit = (celsius * 9/5) + 32;
-            const kelvin = celsius + 273.15;
-
-            temperatureSpanCelsius.textContent = `${celsius}°C`;
-            temperatureSpanFahrenheit.textContent = `${fahrenheit}°F`;
-            temperatureSpanKelvin.textContent = `${kelvin.toFixed(2)}K`;
-
-            // Обновляем описание выбранного элемента
-            const descriptionDiv = document.getElementById('description');
-            if (descriptionDiv.innerHTML !== '<h2>Выберите элемент, чтобы увидеть описание.</h2>') {
-                const elementData = JSON.parse(descriptionDiv.getAttribute('data-element'));
-                const state = determineState(elementData, celsius);
-                showDescription(elementData, state);
-            }
+            temperatureSpan.textContent = `${value}°C`;
         }
 
-        function showDescription(element, state) {
+        function showDescription(element) {
             const descriptionDiv = document.getElementById('description');
-            descriptionDiv.setAttribute('data-element', JSON.stringify(element));
+            const state = determineState(element, parseInt(temperatureSpan.textContent));
 
             descriptionDiv.innerHTML = `
                 <h2>${element.name} (${element.symbol})</h2>
@@ -286,7 +196,117 @@
                 return 'Газообразное';
             }
         }
+
+        function highlightCategory(category) {
+            document.querySelectorAll(`.${category}`).forEach(el => el.style.backgroundColor = '#FFD700');
+        }
+
+        function resetHighlight() {
+            document.querySelectorAll('.element').forEach(el => el.style.backgroundColor = '');
+        }
+    </script>
+
+    <script>
+        const elementsData = {
+            H: { name: 'Hydrogen', canReactWith: ['O', 'Cl', 'F', 'N'] },
+            He: { name: 'Helium', canReactWith: [] },
+            Li: { name: 'Lithium', canReactWith: ['Cl', 'O'] },
+            Be: { name: 'Beryllium', canReactWith: ['O'] },
+            B: { name: 'Boron', canReactWith: ['F'] },
+            C: { name: 'Carbon', canReactWith: ['O', 'H'] },
+            N: { name: 'Nitrogen', canReactWith: ['H'] },
+            O: { name: 'Oxygen', canReactWith: ['H', 'C'] },
+            F: { name: 'Fluorine', canReactWith: ['H'] },
+            Ne: { name: 'Neon', canReactWith: [] },
+            Cl: { name: 'Chlorine', canReactWith: ['H', 'Na'] },
+            Na: { name: 'Sodium', canReactWith: ['Cl'] }
+            // Добавьте все элементы и их совместимость.
+        };
+
+        // Переключение окна соединений
+        function toggleConnectionWindow() {
+            const connectionWindow = document.getElementById('connection-window');
+            connectionWindow.style.display = connectionWindow.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Перетаскивание элементов
+        const dragArea = document.getElementById('drag-area');
+        const resultDiv = document.getElementById('result');
+        const elements = document.querySelectorAll('.element');
+
+        elements.forEach(el => {
+            el.draggable = true; // Разрешить перетаскивание
+            el.addEventListener('dragstart', (e) => {
+                const elementSymbol = el.getAttribute('data-symbol'); // Получаем символ
+                e.dataTransfer.setData('text/plain', elementSymbol); // Передаем символ
+            });
+        });
+        
+        dragArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        
+        dragArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const draggedElementSymbol = e.dataTransfer.getData('text/plain'); // Символ перетаскиваемого элемента
+            const draggedElement = elementsData[draggedElementSymbol];
+        
+            if (!draggedElement) {
+                resultDiv.innerHTML = `<p>Элемент не распознан.</p>`;
+                return;
+            }
+        
+            resultDiv.innerHTML = `<h4>Соединения для ${draggedElement.name} (${draggedElementSymbol}):</h4>`;
+        
+            // Проверяем все элементы, с которыми H может взаимодействовать
+            Object.keys(elementsData).forEach((symbol) => {
+                const formula = generateFormula(draggedElementSymbol, symbol);
+        
+                if (formula) {
+                    resultDiv.innerHTML += `<div style="color: green;">${draggedElementSymbol} + ${symbol} → ${formula}</div>`;
+                }
+            });
+        });
+        
+        // Функция генерации формулы соединения
+        function generateFormula(element1, element2) {
+            // Правила для формирования формул с участием H
+            const combinations = {
+                'H+O': 'H2O', // Вода
+                'H+Cl': 'HCl', // Хлороводород
+                'H+F': 'HF', // Фтороводород
+                'H+Br': 'HBr', // Бромоводород
+                'H+I': 'HI', // Йодоводород
+                'H+N': 'NH3', // Аммиак
+                'H+S': 'H2S', // Сероводород
+                'H+C': 'CH4', // Метан
+                'H+Si': 'SiH4', // Силан
+                'H+P': 'PH3', // Фосфин
+                // Добавьте больше реакций, если нужно
+            };
+        
+            const key1 = `${element1}+${element2}`;
+            const key2 = `${element2}+${element1}`; // Проверяем реакцию в обратном порядке
+        
+            return combinations[key1] || combinations[key2] || null; // null для отсутствующих реакций
+        }
+        
+        
+
+        // Подсветка категорий
+        function highlightCategory(category) {
+            const elements = document.querySelectorAll(`.${category}`);
+            elements.forEach(el => {
+                el.style.backgroundColor = 'rgba(255, 215, 0, 0.8)';
+            });
+        }
+
+        function resetHighlight() {
+            const elements = document.querySelectorAll('.element');
+            elements.forEach(el => {
+                el.style.backgroundColor = '';
+            });
+        }
     </script>
 </body>
 </html>
-{% endblock %}
