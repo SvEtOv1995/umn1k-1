@@ -45,6 +45,7 @@ class Lesson(m.Model):
     slug = m.SlugField(unique=True)
     
     content = HTMLField()  # TinyMCE for rich-text lesson content
+    explanation = HTMLField()  # TinyMCE for rich-text lesson content
     
     created_at = m.DateTimeField(auto_now_add=True)
     updated_at = m.DateTimeField(auto_now=True)
